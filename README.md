@@ -28,28 +28,16 @@ Light_drtc只提供分布式实时计算的核心开发功能，其中实时日�
 需要在实际中根据实际需要修改，这里需要说明的是，框架本身负责计算任务管理及资源协调。这里重点说明几个配置属性。
 rtc_conf.properties
 
-#batch timer seconds
 mqDoBatchTimer=3 #实时收集的数据流每隔3秒批量提交给任务管理节点
-#realtime stats period: seconds
 rtcPeriodSeconds=7 ＃任务管理节点中每隔7秒将所收集的数据统分发给任务计算节点
-#each job has deviceIds
 atomJobBatchNum=100  ＃默认每个任务计算节点在${rtcPeriodSeconds}秒内所处理的最大元数据条数（比如单个用户规定时间内的所有行为聚合的数据）
 minJobBatchNum = 20  ＃默认每个任务计算节点在${rtcPeriodSeconds}秒内所处理的最小元数据条数
-
-#dss admin node hosts
 adminNodeHosts = 127.0.0.1:16401,127.0.0.1:16406  ＃给数据收集节点使用，这里规定使用2个任务管理节点，双主模式。
-#admin Node Port
 adminNodePort = 16401	＃任务管理节点启动服务所在端口，可以根据需要修改。同台服务器，2个任务管理节点服务端口必须区分
-#adminNode ID, master : 1, repla : 0
-adminNodeId=1		＃后期功能扩展使用，任务管理节点每个都会扩展一个热备。
-
-##server thread num
+adminNodeId=1		＃后期功能扩展使用，任务管理节点每个都会扩展一个热备,主：1，从：0
 minThreadNum=10		 ＃服务端进程，最小线程数
 maxThreadNum=10000   ＃服务端进程，最大线程数
-
-#任务计算节点配置，供任务管理节点管理，作者建议每个任务管理节点至少3个任务计算节点实例
-jobNodeHosts=127.0.0.1:1641,127.0.0.1:1642,127.0.0.1:1643,127.0.0.1:1644
-#jobNodePort : suitable your real situation
+jobNodeHosts=127.0.0.1:1641,127.0.0.1:1642,127.0.0.1:1643,127.0.0.1:1644  #任务计算节点配置，供任务管理节点管理，作者建议每个任务管理节点至少3个任务计算节点实例
 jobNodePort=16401	＃任务计算节点启动服务所在端口，可以根据需要调整。
 
 
