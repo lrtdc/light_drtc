@@ -52,7 +52,7 @@ public class AdminNodeService {
 	public List<Integer> getAbleJobNodeIds(){
 		List<Integer> ableJobNodeIds = new ArrayList<>();
 		for(Entry<Integer,LrtdcClient> item : jobNodeClientMap.entrySet()){
-			if(item.getValue().getJobStatus()==0){
+			if(item.getValue().getHealthStatus()==1){
 				ableJobNodeIds.add(item.getKey());
 			}
 		}
@@ -69,8 +69,10 @@ public class AdminNodeService {
 			Map<Integer,Integer> rtMap = new HashMap<Integer,Integer>();
 			int adminNodeId = -1;
 			int rtResult = -1;
+			List<Integer> enableJobIds = this.getAbleJobNodeIds();
+			int enableServerNum = enableJobIds.size();
 			if(uidNum<Constants.minJobBatchNum){
-				adminNodeId =rand.nextInt(jobNodeNum);
+				adminNodeId =enableJobIds.get(rand.nextInt(enableServerNum));
 				if(jobNodeClientMap.get(adminNodeId).getHealthStatus()==1){
 					rtResult = jobNodeClientMap.get(adminNodeId).getRtcStatsResult(userActions);
 					if(rtResult<1){
@@ -80,12 +82,12 @@ public class AdminNodeService {
 				rtMap.put(adminNodeId, rtResult);
 			}else{
 				List<Future<Map<Integer,Integer>>> futList = new LinkedList<Future<Map<Integer,Integer>>>();
-				ExecutorService exPool = Executors.newFixedThreadPool(jobNodeNum);
-				int eachJobUserNum = (int) Math.ceil(1.0 * userActions.size()/jobNodeNum);
+				ExecutorService exPool = Executors.newFixedThreadPool(enableServerNum);
+				int eachJobUserNum = (int) Math.ceil(1.0 * userActions.size()/enableServerNum);
 				int startCur=0,endCur=0;
-				for(int j=0; j<jobNodeNum; j++){
+				for(int j=0; j<enableServerNum; j++){
 					startCur = j * eachJobUserNum;
-					if(j<jobNodeNum-1){
+					if(j<enableServerNum-1){
 						endCur = (j+1) * eachJobUserNum;
 						if(endCur>uidNum){
 							endCur = uidNum;
@@ -114,7 +116,7 @@ public class AdminNodeService {
 					exPool.shutdown();
 				}
 				exPool = null;
-				this.reRun(rtMap, eachJobUserNum, uidNum);
+				this.reRun(rtMap, eachJobUserNum, uidNum, enableServerNum);
 			}
 			end = System.currentTimeMillis();
 			System.out.println(ConfigProperty.getCurDateTime()+" 最近待执行的  "+Constants.rtcPeriodSeconds +" 秒 用户短期兴趣标签共耗时： "+(double)(end-begin)/1000+" 秒 "+rtMap);
@@ -129,12 +131,12 @@ public class AdminNodeService {
 	 * @param eachJobUserNum
 	 * @param uidNum
 	 */
-	public void reRun(Map<Integer,Integer> rtMap, int eachJobUserNum, int uidNum){
+	public void reRun(Map<Integer,Integer> rtMap, int eachJobUserNum, int uidNum, int enableServerNum){
 		int startCur=0,endCur=0;
 		for(Entry<Integer,Integer> item : rtMap.entrySet()){
 			if(item.getValue()<1){
 				startCur = item.getKey() * eachJobUserNum;
-				if(item.getKey()<jobNodeNum-1){
+				if(item.getKey()<enableServerNum-1){
 					endCur = (item.getKey() + 1) * eachJobUserNum;
 					if(endCur>uidNum){
 						endCur = uidNum;

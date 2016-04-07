@@ -8,11 +8,9 @@ import org.light.rtc.util.ConfigProperty;
 import org.light.rtc.util.Constants;
 import org.light.rtc.util.Murmurs;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimerTask;
-import java.util.Map.Entry;
 
 public class MqDoTimer extends TimerTask {
 	protected static ConcurrentLinkedQueue<String> firstStreamLogs = new ConcurrentLinkedQueue<String>();
