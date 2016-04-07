@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.TreeMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,7 +18,6 @@ import java.util.concurrent.Future;
 
 import org.light.rtc.client.LrtdcClient;
 import org.light.rtc.util.Constants;
-import org.light.rtc.util.FileUtil;
 import org.light.rtc.util.ConfigProperty;
 
 public class AdminNodeService {
@@ -71,11 +68,14 @@ public class AdminNodeService {
 			System.out.println(ConfigProperty.getCurDateTime()+" 获取最近待执行 "+Constants.rtcPeriodSeconds +" 秒 用户行为数据共有 "+userActions.size());
 			Map<Integer,Integer> rtMap = new HashMap<Integer,Integer>();
 			int adminNodeId = -1;
+			int rtResult = -1;
 			if(uidNum<Constants.minJobBatchNum){
 				adminNodeId =rand.nextInt(jobNodeNum);
-				int rtResult = jobNodeClientMap.get(adminNodeId).getRtcStatsResult(userActions);
-				if(rtResult<1){
-					rtResult = jobNodeClientMap.get(rand.nextInt(jobNodeNum)).getRtcStatsResult(userActions);
+				if(jobNodeClientMap.get(adminNodeId).getHealthStatus()==1){
+					rtResult = jobNodeClientMap.get(adminNodeId).getRtcStatsResult(userActions);
+					if(rtResult<1){
+						rtResult = jobNodeClientMap.get(adminNodeId).getRtcStatsResult(userActions);
+					}
 				}
 				rtMap.put(adminNodeId, rtResult);
 			}else{
@@ -164,7 +164,13 @@ public class AdminNodeService {
 		@Override
 		public Map<Integer, Integer> call() throws Exception {
 			Map<Integer,Integer> rtMap = new HashMap<Integer,Integer>();
-			rtMap.put(this.nodeId, jobNodeClientMap.get(this.nodeId).getRtcStatsResult(userNids));
+			if(jobNodeClientMap.get(this.nodeId).getHealthStatus()==1){
+				int rtResult = jobNodeClientMap.get(this.nodeId).getRtcStatsResult(userNids);
+				if(rtResult<1){
+					rtResult = jobNodeClientMap.get(this.nodeId).getRtcStatsResult(userNids);
+				}
+				rtMap.put(this.nodeId, rtResult);
+			}
 			return rtMap;
 		}
 		
