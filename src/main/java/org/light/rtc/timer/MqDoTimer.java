@@ -24,6 +24,7 @@ public class MqDoTimer extends TimerTask {
 	private int adminNodeNum;
 	private ConcurrentHashMap<Integer,LrtdcClient> adminNodeClientMap;
 	private Murmurs mmHash = new Murmurs();
+	private long timerNum = 0;
 	
 	public MqDoTimer(){
 		if(adminNodeHosts!=null){
@@ -78,6 +79,10 @@ public class MqDoTimer extends TimerTask {
 			}
 		} catch (Exception e) {
 			System.err.println("用户行为日志收集错误 "+e.getMessage());
+		}
+		if(++timerNum%1000==0){
+			System.out.println("实时数据流按固定周期提交 " +timerNum+" 次");
+			System.gc();
 		}
 	}
 	

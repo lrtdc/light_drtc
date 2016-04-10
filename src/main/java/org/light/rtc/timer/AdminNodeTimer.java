@@ -52,6 +52,7 @@ public class AdminNodeTimer extends TimerTask{
 								if(rtJsonList!=null){
 									memDelayQu.add(rtJsonList);
 								}
+								fu.delActionFile(taskFile);
 							}
 						}
 						if(memDelayQu.size()<Constants.maxDelayTaskNum){
