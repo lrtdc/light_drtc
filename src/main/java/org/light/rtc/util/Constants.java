@@ -7,7 +7,7 @@ public class Constants {
 	public static String esClusterName = ConfigProperty.getProps().getProperty("cluterName");
 	public static String esClusterHosts = ConfigProperty.getProps().getProperty("clusterHosts");
 	
-	//mq config
+	//rabbitmq config
 	public final static String mqHost = ConfigProperty.getProps().getProperty("mq.host");
 	public final static int mqPort = Integer.parseInt(ConfigProperty.getProps().getProperty("mq.port"));
 	public final static String mqUser = ConfigProperty.getProps().getProperty("mq.user");
@@ -17,6 +17,12 @@ public class Constants {
 	public final static String mqClickKey = ConfigProperty.getProps().getProperty("mq.clickRoutKey");
 	public final static String mqClickFirstQu = ConfigProperty.getProps().getProperty("mq.clickQueue1");
 	public final static String mqClickSecondQu = ConfigProperty.getProps().getProperty("mq.clickQueue2");
+	
+	//kafka config
+	public final static String kfZkServers = ConfigProperty.getProps().getProperty("kfZkServers");
+	public final static String kfGroupId = ConfigProperty.getProps().getProperty("kfGroupId");
+	public final static String kfAutoOffsetReset = ConfigProperty.getProps().getProperty("kfAutoOffsetReset");
+	public final static String kfTopic = ConfigProperty.getProps().getProperty("kfTopic");
 	
 	//Timer config (unit : seconds)
 	public final static int mqDoBatchTimer = Integer.parseInt(ConfigProperty.getProps().getProperty("mqDoBatchTimer"));

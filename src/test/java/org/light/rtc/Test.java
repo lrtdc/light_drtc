@@ -23,10 +23,10 @@ public class Test {
 //		for(int a : arr){
 //			System.out.println(a);
 //		}
-		String testStr = "light-2016-bsfas";
+		String testStr = "98";
 		long begin = System.nanoTime();
 		long begin1 = System.currentTimeMillis();
-		System.out.println(Murmurs.getCharSum(testStr)%2);
+		System.out.println(Murmurs.getGuavaMurmurs(testStr));
 		System.out.println(Murmurs.getCharSum("light-2016-asfas－dffd")%2);
 		long rtNum = Murmurs.hashUnsigned(testStr).longValue();
 		System.out.println(rtNum +"\t"+rtNum%2);

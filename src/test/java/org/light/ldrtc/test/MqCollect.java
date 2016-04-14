@@ -6,7 +6,7 @@ import java.util.List;
 import org.light.rtc.base.MqConsumer;
 
 public class MqCollect extends MqConsumer{
-
+	
 	public void run(){
 		String[] tmpFields = null;
 		List<String> dataQu = new LinkedList<String>();

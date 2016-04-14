@@ -23,7 +23,6 @@ public class MqDoTimer extends TimerTask {
 	private String[] adminNodeHosts = Constants.adminNodeHosts.split(",");
 	private int adminNodeNum;
 	private ConcurrentHashMap<Integer,LrtdcClient> adminNodeClientMap;
-	private Murmurs mmHash = new Murmurs();
 	private long timerNum = 0;
 	
 	public MqDoTimer(){
@@ -39,7 +38,7 @@ public class MqDoTimer extends TimerTask {
 	}
 	
 	public void parseMqText(String routKey, String mqText){
-		int adminId = (int)(mmHash.getGuavaMurmurs(routKey)%adminNodeNum);
+		int adminId = (int)(Murmurs.getGuavaMurmurs(routKey)%adminNodeNum);
 		this.dataStreamList.get(adminId).add(mqText);
 	}
 	

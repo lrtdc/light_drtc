@@ -85,9 +85,9 @@ public class RabbitMqCollect extends MqConsumer{
          this.connection.close();
      }
 
-	public static void main(String[] args) {
-		RabbitMqCollect rmc = new RabbitMqCollect();
-		rmc.run();
-	}
+//	public static void main(String[] args) {
+//		RabbitMqCollect rmc = new RabbitMqCollect();
+//		rmc.run();
+//	}
 
 }

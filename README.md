@@ -21,7 +21,10 @@ Light_drtc采用Java8开发，整个项目可以分为3部分：实时数据收�
 Light_drtc只提供分布式实时计算的核心开发功能，其中实时日志解析、任务计算落地实现都需要开发者自行定义。以下3个部分为开发者的开发步骤，且为3个独立进程。
 
 	1. 数据流实时收集部分，每隔${mqDoBatchTimer}秒批量提交给任务管理节点，至于实时收集数据MQ需要学者自己开发，框架中也有RabbitMQ作为消费者的实用用例。
-	   具体开发，可以参考 src/test/java/org/light/ldrtc/test/MqCollect.java，首先继承org.light.rtc.base.MqConsumer.java, 然后对所接受的每条数据，代码中调用“this.mqTimer.parseMqText(userId, logText)”即可。
+	   具体开发时，如果学者选用Kafka或RabbitMq，则可以直接使用框架中已实现"org.light.rtc.mq.KafkaMqCollect.java"或"RabbiMqCollect.java"，直接实例化，调用相关方法即可。
+	   	 实例可以参考：src/test/java/org/light/rtc/test/KafkaRabbitMqCollect.java
+	   具体开发时，如果选用其他MQ，可以参考“org.light.rtc.mq.KafkaMqCollect.java”实现，继承org.light.rtc.base.MqConsumer.java, 对所接受的每条数据，代码中调用“this.mqTimer.parseMqText(userId, logText)”即可。 
+	   	 实例可以参考：src/test/java/org/light/rtc/test/MqCollect.java
 	   
 	2. 任务管理部分：对于所接受的来自实时数据流的数据，每隔${rtcPeriodSeconds}秒，将所收集的数据，统一加工成每条信息类似: "{uid:设备ID或通行证ID，data:{view:{docIds},collect:{docIds}}}"形式的信息列表。
 	   具体开发可以参考src/test/java/org/light/ldrtc/test/AdminNodeServer.java， 这里需要开发者需要自行实现实时数据流的日志解析，需要实现“org.light.rtc.base.StreamLogParser.java”接口，具体参考实例src/test/java/org/light/ldrtc/parser/LogParser.java
