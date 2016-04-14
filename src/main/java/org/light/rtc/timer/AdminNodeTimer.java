@@ -90,21 +90,22 @@ public class AdminNodeTimer extends TimerTask{
 	}
 	
 	public void reRun(){
-		System.out.println("AdminNodeTimer reRun method ......"+memDelayQu.size());
-		ans.setUserActions(memDelayQu.poll());
-		new Thread(new AdminConsole()).start();
-		if(delayTaskIdDataNums.size()>0){
-			String taskFile = Constants.delayTaskDir + delayTaskIdDataNums.pollFirstEntry().getKey() + Constants.delayTaskFileSurfix;
-			List<String> rtJsonList = fu.readActions(taskFile);
-			if(rtJsonList!=null){
-				memDelayQu.add(rtJsonList);
+		if(memDelayQu.size()>0){
+			System.out.println("AdminNodeTimer reRun method ......"+memDelayQu.size());
+			ans.setUserActions(memDelayQu.poll());
+			new Thread(new AdminConsole()).start();
+			if(delayTaskIdDataNums.size()>0){
+				String taskFile = Constants.delayTaskDir + delayTaskIdDataNums.pollFirstEntry().getKey() + Constants.delayTaskFileSurfix;
+				List<String> rtJsonList = fu.readActions(taskFile);
+				if(rtJsonList!=null){
+					memDelayQu.add(rtJsonList);
+				}
 			}
 		}
 	}
 	
 	protected class AdminConsole implements Runnable{
 		
-
 		@Override
 		public void run() {
 			minBathJobStatus = 1;
@@ -114,11 +115,8 @@ public class AdminNodeTimer extends TimerTask{
 				System.err.println("分布式计算任务管理服务错误： "+e.getMessage());
 			}
 			minBathJobStatus = 0;
-			if(memDelayQu.size()>0){
-				reRun();
-			}
+			reRun();
 		}
-		
 	}
 
 }
