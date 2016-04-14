@@ -24,7 +24,7 @@ public class AdminNodeService {
 	private String[] jobNodeHosts = Constants.jobNodeHosts.split(",");
 	private int jobNodeNum = jobNodeHosts.length;
 	private ConcurrentHashMap<Integer,LrtdcClient> jobNodeClientMap;
-	private List<String> userActions = new LinkedList<String>();
+	private List<String> userActions;
 	private final SimpleDateFormat timeNumSdf = new SimpleDateFormat("yyyyMMddHHmmss");
 	
 	public AdminNodeService(){
