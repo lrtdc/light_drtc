@@ -55,7 +55,7 @@ public class KafkaMqCollect extends MqConsumer{
         while (it.hasNext()){
         	msgMeta = it.next();
         	super.mqTimer.parseMqText(msgMeta.key(), msgMeta.message());
-        	System.out.println(msgMeta.key()+"\t"+msgMeta.message());
+        	//System.out.println(msgMeta.key()+"\t"+msgMeta.message());
         }
 	}
 
