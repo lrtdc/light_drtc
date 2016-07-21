@@ -48,6 +48,8 @@ public class LrtdcClient {
 				e.printStackTrace();
 				System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算异常!");
 			}
+	    	transport.close();
+            transport = null;
 	    }else{
 	    	System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算服务客户端连接失败!");
 	    }
@@ -71,6 +73,8 @@ public class LrtdcClient {
 				e.printStackTrace();
 				System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算节点工作状态异常!");
 			}
+	    	transport.close();
+            transport = null;
 	    }else{
 	    	System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算节点工作状态客户端连接失败!");
 	    }
@@ -94,6 +98,8 @@ public class LrtdcClient {
 				e.printStackTrace();
 				System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算数据收集节点向任务管理节点传输任务 异常!");
 			}
+	    	transport.close();
+            transport = null;
 	    }else{
 	    	System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算数据收集节点向任务管理节点传输 网络连接失败!");
 	    }
@@ -117,6 +123,8 @@ public class LrtdcClient {
 				e.printStackTrace();
 				System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算大数据批量处理 异常!");
 			}
+	    	transport.close();
+            transport = null;
 	    }else{
 	    	System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算 大数据批量处理 客户端连接失败!");
 	    }
@@ -140,6 +148,8 @@ public class LrtdcClient {
 				e.printStackTrace();
 				System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算获取任务管理主节点ID异常!");
 			}
+	    	transport.close();
+            transport = null;
 	    }else{
 	    	System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算获取任务管理主节点ID客户端连接失败!");
 	    }
@@ -163,6 +173,8 @@ public class LrtdcClient {
 				e.printStackTrace();
 				System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算服务健康状况监测异常!");
 			}
+	    	transport.close();
+            transport = null;
 	    }else{
 	    	System.err.println(this.getCurDateTime()+" 轻量级分布式实时计算健康状况监测客户端连接失败!");
 	    }
